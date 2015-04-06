@@ -8,16 +8,64 @@ import sys
 a = QApplication(sys.argv)
 
 
-class Server(QWidget):
+class MyQLineEdit(QLineEdit):
+    def __init__(self):
+        super(MyQLineEdit, self).__init__()
+
+    def keyPressEvent(self, k):
+        if k.key() == Qt.Key_Return or k.key() == Qt.Key_Enter:
+            s.convert_to_bin()
+        QLineEdit.keyPressEvent(self, k)
+
+
+class MyQWidget(QWidget):
+    def __init__(self):
+        super(MyQWidget, self).__init__()
+        self.setWindowIcon(self.icon)
+
+    icon = QIcon("icon.png")
+
+
+class Client(MyQWidget):
+    def __init__(self):
+        super(Client, self).__init__()
+        self.initialize_user_interface()
+
+    grid_layout = QGridLayout()
+    text_box = QTextEdit()
+    text_label = QLabel()
+
+    def initialize_user_interface(self):
+        self.setWindowTitle("RS232 Simulator - Client")
+        self.setLayout(self.grid_layout)
+        self.setMaximumSize(300, 200)
+        self.setMinimumSize(300, 200)
+        self.resize(300, 200)
+        self.move(50, 50)
+        self.show()
+
+        self.text_label.setText("Received text:")
+        self.grid_layout.addWidget(self.text_label)
+
+        self.text_box.setReadOnly(True)
+        self.text_box.viewport().setCursor(Qt.ArrowCursor)
+        self.text_box.setStyleSheet("QTextEdit, QLineEdit {"
+                                    "background-color: #d0d0d0;"
+                                    "}")
+        self.grid_layout.addWidget(self.text_box)
+
+c = Client()
+
+
+class Server(MyQWidget):
     def __init__(self):
         super(Server, self).__init__()
         self.initialize_user_interface()
 
     grid_layout = QGridLayout()
-    icon = QIcon("icon.png")
 
+    text_box = MyQLineEdit()
     text_label = QLabel()
-    text_box = QLineEdit()
     text_button = QPushButton()
 
     bin_label = QLabel()
@@ -25,11 +73,10 @@ class Server(QWidget):
     bin_button = QPushButton()
 
     def initialize_user_interface(self):
-        self.setWindowTitle("RS232 Simulator")
+        self.setWindowTitle("RS232 Simulator - Server")
         self.setLayout(self.grid_layout)
         self.setMaximumSize(300, 350)
         self.setMinimumSize(300, 350)
-        self.setWindowIcon(self.icon)
         self.resize(300, 350)
         self.show()
 
@@ -82,7 +129,7 @@ class Server(QWidget):
 
     def convert_to_bin(self):
         """ Step by step for every conversion process."""
-        temp_text = self.text_box.toPlainText()
+        temp_text = self.text_box.displayText()
         temp_text = self.check_dictionary(temp_text)
         temp_text = self.text_to_ascii(temp_text)
         temp_text = self.ascii_to_bin(temp_text)
@@ -93,9 +140,14 @@ class Server(QWidget):
         return ''.join('' if i % 11 in [0, 9, 10]
                        else char for i, char in enumerate(temp_text))
 
-    def convert_to_text(self):
-        self.remove_start_stop(self.bin_box.toPlainText())
+    @staticmethod
+    def bin_to_ascii(temp_text) -> list:
 
+
+    def convert_to_text(self):
+        c.text_box.setText(self.remove_start_stop(self.bin_box.toPlainText()))
+
+print(chr(int("00110001", 2)))
 s = Server()
 
 sys.exit(a.exec())
