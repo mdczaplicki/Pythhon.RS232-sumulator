@@ -142,12 +142,14 @@ class Server(MyQWidget):
 
     @staticmethod
     def bin_to_ascii(temp_text) -> list:
-
+        temp_list = []
+        for i in range(int(len(temp_text) / 8)):
+            temp_list.append(int(temp_text[i*8:i*8+8], 2))
+        print(temp_list)
 
     def convert_to_text(self):
-        c.text_box.setText(self.remove_start_stop(self.bin_box.toPlainText()))
+        c.text_box.setText(self.bin_to_ascii(self.remove_start_stop(self.bin_box.toPlainText())))
 
-print(chr(int("00110001", 2)))
 s = Server()
 
 sys.exit(a.exec())
