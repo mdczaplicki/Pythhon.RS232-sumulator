@@ -17,7 +17,7 @@ class Server(QWidget):
     icon = QIcon("icon.png")
 
     text_label = QLabel()
-    text_box = QTextEdit()
+    text_box = QLineEdit()
     text_button = QPushButton()
 
     bin_label = QLabel()
@@ -36,7 +36,6 @@ class Server(QWidget):
         self.text_label.setText("Text to send:")
         self.grid_layout.addWidget(self.text_label, 0, 0)
 
-        self.text_box.setFixedHeight(25)
         self.grid_layout.addWidget(self.text_box, 1, 0)
         self.text_box.setFocus()
 
@@ -91,9 +90,8 @@ class Server(QWidget):
 
     @staticmethod
     def remove_start_stop(temp_text) -> str:
-        temp_text = ''.join('' if i % 11 in [0, 9, 10]
-                            else char for i, char in enumerate(temp_text))
-        print(temp_text)
+        return ''.join('' if i % 11 in [0, 9, 10]
+                       else char for i, char in enumerate(temp_text))
 
     def convert_to_text(self):
         self.remove_start_stop(self.bin_box.toPlainText())
