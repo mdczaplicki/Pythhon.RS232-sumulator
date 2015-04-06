@@ -78,7 +78,7 @@ class Server(QWidget):
     def ascii_to_bin(temp_list) -> str:
         out = ""
         for i in temp_list:
-            out += '1' + bin(i)[2:] + '11'
+            out += '1' + '0' * (8 - len(bin(i)[2:])) + bin(i)[2:] + '11'
         return out
 
     def convert_to_bin(self):
@@ -91,14 +91,12 @@ class Server(QWidget):
 
     @staticmethod
     def remove_start_stop(temp_text) -> str:
-        for i in range(len(temp_text)):
-            if any([i % bits == 0 for bits in (9, 10, 11)]):
-                print(i)
+        temp_text = ''.join('' if i % 11 in [0, 9, 10]
+                            else char for i, char in enumerate(temp_text))
+        print(temp_text)
 
     def convert_to_text(self):
         self.remove_start_stop(self.bin_box.toPlainText())
-
-
 
 s = Server()
 
