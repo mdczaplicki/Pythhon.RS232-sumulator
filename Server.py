@@ -2,7 +2,6 @@ __author__ = 'Marek'
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-import binascii as ba
 import sys
 
 a = QApplication(sys.argv)
