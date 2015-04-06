@@ -145,10 +145,18 @@ class Server(MyQWidget):
         temp_list = []
         for i in range(int(len(temp_text) / 8)):
             temp_list.append(int(temp_text[i*8:i*8+8], 2))
-        print(temp_list)
+        return temp_list
+
+    @staticmethod
+    def ascii_to_text(temp_list) -> str:
+        temp_text = ''
+        for i in range(len(temp_list)):
+            temp_text += (chr(temp_list[i]))
+        return temp_text
+
 
     def convert_to_text(self):
-        c.text_box.setText(self.bin_to_ascii(self.remove_start_stop(self.bin_box.toPlainText())))
+        c.text_box.setText(self.ascii_to_text(self.bin_to_ascii(self.remove_start_stop(self.bin_box.toPlainText()))))
 
 s = Server()
 
