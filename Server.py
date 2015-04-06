@@ -154,6 +154,7 @@ class Server(MyQWidget):
         return temp_text
 
     def convert_to_text(self):
+        """ Step by step for every conversion process. """
         temp_text = self.bin_box.toPlainText()
         temp_text = self.remove_start_stop(temp_text)
         temp_text = self.bin_to_ascii(temp_text)
