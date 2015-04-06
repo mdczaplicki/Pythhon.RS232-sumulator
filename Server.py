@@ -55,6 +55,7 @@ class Server(QWidget):
         self.grid_layout.addWidget(self.bin_box, 4, 0)
 
         self.bin_button.setText("Send")
+        self.bin_button.clicked.connect(self.convert_to_text)
         self.grid_layout.addWidget(self.bin_button, 5, 0)
 
     @staticmethod
@@ -87,6 +88,16 @@ class Server(QWidget):
         temp_text = self.text_to_ascii(temp_text)
         temp_text = self.ascii_to_bin(temp_text)
         self.bin_box.setText(temp_text)
+
+    @staticmethod
+    def remove_start_stop(temp_text) -> str:
+        for i in range(len(temp_text)):
+            if any([i % bits == 0 for bits in (9, 10, 11)]):
+                print(i)
+
+    def convert_to_text(self):
+        self.remove_start_stop(self.bin_box.toPlainText())
+
 
 
 s = Server()
