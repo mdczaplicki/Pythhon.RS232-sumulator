@@ -154,9 +154,12 @@ class Server(MyQWidget):
             temp_text += (chr(temp_list[i]))
         return temp_text
 
-
     def convert_to_text(self):
-        c.text_box.setText(self.ascii_to_text(self.bin_to_ascii(self.remove_start_stop(self.bin_box.toPlainText()))))
+        temp_text = self.bin_box.toPlainText()
+        temp_text = self.remove_start_stop(temp_text)
+        temp_text = self.bin_to_ascii(temp_text)
+        temp_text = self.ascii_to_text(temp_text)
+        c.text_box.setText(temp_text)
 
 s = Server()
 
